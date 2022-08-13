@@ -61,5 +61,5 @@ model Guestbook {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     name      String
-    messafe   String   @db.VarChar(100)
+    message   String   @db.VarChar(100)
 }
