@@ -8,7 +8,27 @@ import { Form } from '../components/Form';
 const Home: NextPage = () => {
 	const [message, setMessage] = useState('');
 	const { data: session, status } = useSession();
-	const { mutate } = trpc.useMutation('guestbook.postMessage');
+
+	const ctx = trpc.useContext();
+
+	const { mutate } = trpc.useMutation('guestbook.postMessage', {
+		onSuccess: () => {
+			ctx.invalidateQueries(['guestbook.getAllMessages']);
+		},
+		// onMutate: () => {
+		// 	ctx.cancelQuery(['guestbook.getAllMessages']);
+
+		// 	let optimisticUpdate = ctx.getQueryData(['guestbook.getAllMessages']);
+
+		// 	if (optimisticUpdate) {
+		// 		ctx.setQueryData(['guestbook.getAllMessages'], optimisticUpdate);
+		// 	}
+		// },
+
+		// onSettled: () => {
+		// 	ctx.invalidateQueries(['guestbook.getAllMessages']);
+		// },
+	});
 
 	if (status === 'loading') {
 		return <main className="flex flex-col items-center pt-4">Loading...</main>;
@@ -33,8 +53,8 @@ const Home: NextPage = () => {
 			<h1 className="text-3xl pt-4">Guestbook</h1>
 			<div className="pt-10">
 				{session ? (
-					<div>
-						<p>hi {session.user?.name}</p>
+					<div className="">
+						<p className="text-neutral-400">Hi {session.user?.name}!</p>
 						<button onClick={() => signOut()}>Logout</button>
 
 						<div className="pt-6">
@@ -60,7 +80,6 @@ const Home: NextPage = () => {
 					</div>
 				)}
 			</div>
-
 			{process.env.NODE_ENV !== 'production' && (
 				<ReactQueryDevtools initialIsOpen={false} />
 			)}

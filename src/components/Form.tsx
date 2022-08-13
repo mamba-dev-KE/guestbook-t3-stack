@@ -19,10 +19,7 @@ export const Form: React.FC<FormProps> = ({
 				onChange={handleChange}
 				className="px-4 py-2 rounded-md border-2 border-zinc-800 bg-neutral-900 focus:outline-none"
 			/>
-			<button
-				type="submit"
-				className="p-2 rounded-md border-2 border-zinc-800 focus:outline-none"
-			>
+			<button className="p-2 rounded-md border-2 border-zinc-800 focus:outline-none">
 				Submit
 			</button>
 		</form>
