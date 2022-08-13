@@ -15,6 +15,8 @@ const Home: NextPage = () => {
 		onSuccess: () => {
 			ctx.invalidateQueries(['guestbook.getAllMessages']);
 		},
+
+		// ALternative method of refetching data on message add using onMutate and onSettled
 		// onMutate: () => {
 		// 	ctx.cancelQuery(['guestbook.getAllMessages']);
 
